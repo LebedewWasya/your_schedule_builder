@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<groupId>l</groupId>
+	<artifactId>yourschedulebuilder</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>your_schedule_builder</name>
+
+	<description>Project for training</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<celesta.version>7.4.5</celesta.version>
+		<junit.version>5.7.2</junit.version>
+		<celesta.version>7.3.48</celesta.version>
+		<maven-compiller-plugin.version>3.8.1</maven-compiller-plugin.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.curs</groupId>
+			<!-- Собственный Spring Boot starter облегчает конфигурацию Celesta в Spring Boot приложениях -->
+			<artifactId>spring-boot-starter-celesta</artifactId>
+			<version>2.1.52</version>
+			<!-- Исключаем зависимость от Celesta, указанную в Celesta spring boot starter,
+                 чтобы ниже указать более актуальный номер версии Celesta -->
+			<exclusions>
+				<exclusion>
+					<groupId>ru.curs</groupId>
+					<artifactId>celesta-system-services</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- Подключаем Celesta более свежей версии, чем предлагает Spring Boot Starter-->
+			<groupId>ru.curs</groupId>
+			<artifactId>celesta-system-services</artifactId>
+			<version>${celesta.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.4</version>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ru.curs</groupId>
+			<artifactId>celesta-unit</artifactId>
+			<version>${celesta.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Test End -->
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiller-plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>ru.curs</groupId>
+				<artifactId>celesta-maven-plugin</artifactId>
+				<version>${celesta.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>gen-cursors</goal>
+							<goal>gen-score-resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
